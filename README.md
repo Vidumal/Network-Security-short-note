@@ -8,7 +8,7 @@
 ║   ███████║██║  ██║╚██████╔╝   ██║                   ║
 ║   ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝                   ║
 ║                                                      ║
-║       SHUT THE FUCK UP AND LEARN NETWORK SECURITY    ║
+║        THE FUCK UP AND LEARN NETWORK SECURITY    ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 ```
