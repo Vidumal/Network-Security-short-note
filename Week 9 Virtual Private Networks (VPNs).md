@@ -39,3 +39,5 @@ Imagine you want to send packet A. The VPN protects it and carries it inside pac
 An observer may see that encrypted VPN traffic is travelling between two endpoints, but should not be able to read the protected contents.
 
 Remember the sequence: Authenticate → Encapsulate → Encrypt → Send → Decrypt → Decapsulate.
+
+
