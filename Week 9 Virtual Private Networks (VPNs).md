@@ -25,3 +25,17 @@ A VPN can provide three important security properties:
 
 
 Easy memory trick: VPN = Tunnel + Encryption + Authentication, with integrity protection also commonly provided.
+
+
+Imagine you want to send packet A. The VPN protects it and carries it inside packet B.
+
+- Original packet: The actual data being sent.
+    
+- Outer packet: Carries the protected traffic across the public internet.
+    
+- Remote VPN device: Removes the outer wrapping and restores the original packet.
+    
+
+An observer may see that encrypted VPN traffic is travelling between two endpoints, but should not be able to read the protected contents.
+
+Remember the sequence: Authenticate → Encapsulate → Encrypt → Send → Decrypt → Decapsulate.
