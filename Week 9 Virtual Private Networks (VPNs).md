@@ -111,3 +111,16 @@ The lecture explains that VPNs are classified using two independent questions:
 These are different dimensions. For example, a remote-access VPN can use software on the user's laptop and a hardware appliance at the company's network edge.
 
 ![[Pasted image 20261024180531.png]]
+
+The five VPN types in the lecture are:
+
+VPN deployment form:
+1. Software VPN
+2. Hardware VPN
+
+VPN connection purpose:
+
+1. Remote Access                              2. Site-to-Site:
+     Personal                                           Cloud
+     Mobile                             
+
