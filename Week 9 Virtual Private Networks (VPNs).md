@@ -221,3 +221,17 @@ Exam clue: “One employee working from home needs access to the company network
 
 
 ## Remote Access VPN analysis
+
+This slide evaluates Remote Access VPN rather than introducing another type.
+
+Remember these four factors:
+
+- Hardware/software: Usually software on the user's device; the gateway can be software or hardware.
+    
+- Throughput: Modest per user, but the gateway must support the total number of simultaneous users.
+    
+- Limitations: Internet quality and endpoint security affect the connection.
+    
+- Cost: Relatively low per user.
+
+A Remote Access VPN securely connects an individual remote user to an organisation's private network using a VPN client and gateway. It is suitable for employees working from home or travelling. It has a relatively low per-user cost but depends on the user's internet connection and the security of their device.
