@@ -124,3 +124,100 @@ VPN connection purpose:
      Personal                                           Cloud
      Mobile                             
 
+
+mportant relationships from the slide:
+
+- Personal VPN is a variant of Remote Access VPN.
+    
+- Mobile VPN is a variant of Remote Access VPN.
+    
+- Cloud VPN is mostly a variant of Site-to-Site VPN.
+
+
+
+### Software VPN
+
+
+A software VPN runs as an application or software-based VPN service on an ordinary device or server.
+
+Examples in the lecture include:
+
+- OpenVPN client software.
+    
+- Cisco AnyConnect client.
+    
+- Built-in operating system VPN clients.
+    
+- Software-based VPN servers.
+    
+
+Advantages
+
+- Lower upfront cost.
+    
+- Easy to deploy on many individual devices.
+    
+- Flexible.
+    
+
+Limitation
+
+- Encryption uses the host device's processing resources, so a weak CPU can become a performance bottleneck.
+
+
+### Hardware VPN
+
+A hardware VPN uses a dedicated physical appliance or a router/firewall with VPN functionality. Some devices include dedicated cryptographic acceleration.
+
+Examples include Cisco routers with VPN support, VPN concentrators and ASA firewalls.
+
+Advantages
+
+- High sustained throughput.
+    
+- Centralised management at the network edge.
+    
+- Suitable for handling traffic from many users or an entire site.
+    
+
+Limitations
+
+- Higher upfront cost.
+    
+- Requires suitable hardware and configuration.
+
+
+Example: A company uses VPN-capable gateways to connect two branch offices.
+
+
+
+## Software vs hardware VPN
+
+|Feature|Software VPN|Hardware VPN|
+|---|---|---|
+|Upfront cost|Lower|Higher|
+|Performance|Depends on host CPU|Often higher with crypto acceleration|
+|Deployment|Easy across individual endpoints|Centralised at network gateways|
+|Typical fit|Individual remote users|Whole-network or high-volume connections|
+
+Memory trick: Software = flexible and cheaper. Hardware = more expensive but designed to handle heavier traffic.
+
+# The five VPN types
+
+The lecture also introduces split tunnelling:
+
+- With split tunnelling, only traffic intended for the organisation's network goes through the VPN.
+    
+- Other internet traffic can use the normal internet connection.
+    
+- Depending on configuration, a VPN can instead route all the device's traffic through the tunnel.
+    
+
+Advantages: Low cost per user and centralised access control.
+
+Limitations: Depends on the employee's internet connection, requires client software and can introduce risk if a remote device is compromised.
+
+Exam clue: “One employee working from home needs access to the company network” → Remote Access VPN.
+
+
+## Remote Access VPN analysis
