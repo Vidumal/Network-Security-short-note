@@ -99,3 +99,15 @@ Memory trick: A tunnel is a container. A VPN is a protected container.
 | Examples       | GRE, IP-in-IP                     | IPsec, SSL/TLS VPN                         |
 Exam trap: Do not say that every tunnel is encrypted. GRE by itself is not encryption.
 
+## How VPNs are classified
+
+The lecture explains that VPNs are classified using two independent questions:
+
+1. Deployment form: How is the VPN implemented?
+    
+2. Connection purpose: What is it connecting?
+    
+
+These are different dimensions. For example, a remote-access VPN can use software on the user's laptop and a hardware appliance at the company's network edge.
+
+![[Pasted image 20261024180531.png]]
