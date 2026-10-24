@@ -84,3 +84,4 @@ VPN
 
 ## GRE over IPsec
 
+==🟡GRE provides the tunnel, while IPsec provides security for the GRE traffic==. This can be useful when carrying traffic such as dynamic routing protocols or multicast that a plain IPsec setup might not handle in the same way.
