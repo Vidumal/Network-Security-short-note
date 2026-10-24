@@ -41,3 +41,46 @@ An observer may see that encrypted VPN traffic is travelling between two endpoin
 Remember the sequence: Authenticate → Encapsulate → Encrypt → Send → Decrypt → Decapsulate.
 
 
+The key distinction is that the VPN endpoints handle the protection. Ordinary internet routers forward the outer packets; they do not need to decrypt the protected inner traffic.
+
+Exam question: What happens at the receiving VPN gateway?
+
+Answer: It decrypts the protected packet, removes the outer encapsulation and forwards the original packet to its destination.
+
+
+## The concept of a tunnel
+
+
+A tunnel is a mechanism that puts one protocol's packet inside another protocol's packet.
+
+Think of putting a letter inside an envelope. The envelope helps carry the letter, but it does not automatically make the letter secret.
+
+The lecture gives GRE (Generic Routing Encapsulation) as an example.
+
+GRE can carry different kinds of network traffic inside IP packets. However, ordinary GRE does not inherently encrypt the contents.
+
+Exam point: Tunnelling provides encapsulation, not necessarily security.
+
+## Tunnel vs VPN
+
+Tunnel
+
+- Wraps packets for transport.
+    
+- Does not automatically provide encryption or authentication.
+    
+- Example: GRE used without additional security.
+    
+
+VPN
+
+- Uses tunnelling or equivalent encapsulation to carry traffic.
+    
+- Adds security such as encryption, integrity protection and authentication.
+    
+- Examples: IPsec VPN and SSL/TLS VPN.
+
+
+
+## GRE over IPsec
+
