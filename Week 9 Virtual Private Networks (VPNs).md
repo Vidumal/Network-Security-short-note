@@ -85,3 +85,17 @@ VPN
 ## GRE over IPsec
 
 ==🟡GRE provides the tunnel, while IPsec provides security for the GRE traffic==. This can be useful when carrying traffic such as dynamic routing protocols or multicast that a plain IPsec setup might not handle in the same way.
+
+
+Memory trick: A tunnel is a container. A VPN is a protected container.
+
+### Tunnel vs VPN comparison
+
+| Feature        | Tunnel                            | VPN                                        |
+| -------------- | --------------------------------- | ------------------------------------------ |
+| Main purpose   | Encapsulate and transport packets | Secure communication over a public network |
+| Encryption     | Not inherent                      | Included as part of VPN protection         |
+| Authentication | Not inherent                      | Typically provided                         |
+| Examples       | GRE, IP-in-IP                     | IPsec, SSL/TLS VPN                         |
+Exam trap: Do not say that every tunnel is encrypted. GRE by itself is not encryption.
+
