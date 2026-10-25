@@ -288,39 +288,6 @@ Memory trick: RBAC = Role decides.
 
 
 
-### Slide 22 — Four access control models compared
-
-|Model|Who or what decides?|Example|
-|---|---|---|
-|DAC|Resource owner|File owner grants read access|
-|MAC|Central authority and classifications|Classified government system|
-|RBAC|Job role|HR staff access personnel files|
-|RuBAC|Conditional rules|Access allowed only during office hours|
-
-
-## Accounting: recording what happened
-
-### Slide 23 — Accounting section
-
-Accounting records activity so it can be reviewed later.
-
-It is useful for:
-
-- Security audits.
-    
-- Incident investigation.
-    
-- Compliance.
-    
-- Billing and usage tracking.
-    
-- Detecting unusual activity.
-    
-
-A user can be properly authenticated and authorised, yet their actions may still need to be recorded for accountability.
-
-
-
 
 
 
@@ -356,3 +323,145 @@ Disadvantages:
 Your lecture connects RuBAC to ACLs: a firewall ACL evaluates traffic against rules to decide whether to permit or deny it.
 
 Memory trick: RuBAC = Rules decide.
+
+
+
+
+### Four access control models compared
+
+|Model|Who or what decides?|Example|
+|---|---|---|
+|DAC|Resource owner|File owner grants read access|
+|MAC|Central authority and classifications|Classified government system|
+|RBAC|Job role|HR staff access personnel files|
+|RuBAC|Conditional rules|Access allowed only during office hours|
+
+
+
+
+## Accounting: recording what happened
+
+### Accounting section
+
+Accounting records activity so it can be reviewed later.
+
+It is useful for:
+
+- Security audits.
+    
+- Incident investigation.
+    
+- Compliance.
+    
+- Billing and usage tracking.
+    
+- Detecting unusual activity.
+    
+
+A user can be properly authenticated and authorised, yet their actions may still need to be recorded for accountability.
+
+
+### Session accounting
+
+
+Session accounting records when a session starts and stops.
+
+Example:
+
+- Login: 9:14 AM.
+    
+- Logout: 9:47 AM.
+    
+- Session duration: 33 minutes.
+    
+
+It can help answer:
+
+- Who logged in?
+    
+- When did the session begin?
+    
+- When did it end?
+    
+- How long was the user connected?
+    
+
+Advantages: Simple and relatively low overhead.
+
+Limitation: It does not tell you exactly what the user did during the session.
+
+Memory trick: Session accounting = when and how long.
+
+
+
+### Command accounting
+
+Command accounting records individual commands executed by a user.
+
+Example log:
+
+- 9:15 AM — entered configuration mode.
+    
+- 9:16 AM — selected an interface.
+    
+- 9:17 AM — changed an interface setting.
+    
+
+It is especially useful for:
+
+- Investigating incidents.
+    
+- Reconstructing administrative actions.
+    
+- Demonstrating which commands were recorded under a user's identity.
+    
+- Compliance and accountability.
+    
+
+The slide identifies TACACS+ command accounting as an example.
+
+Advantages: Detailed activity records.
+
+Limitations: Generates more logs and requires storage, monitoring and protection.
+
+Memory trick: Command accounting = what commands.
+
+
+
+### Resource accounting
+
+Resource accounting records how much of a resource was consumed.
+
+Examples:
+
+- Data transferred.
+    
+- Bandwidth used.
+    
+- Connection time.
+    
+- VPN traffic volume.
+    
+
+Example: A corporate VPN gateway records that a remote account transferred 8 GB of data during a session.
+
+This can help with billing, capacity planning and identifying unusual data transfers.
+
+However, a large transfer could be a legitimate backup or possible data theft. Resource accounting alone cannot tell you which without additional context.
+
+Memory trick: Resource accounting = how much.
+
+
+
+### Accounting types compared
+
+|Type|What it records|Best remembered as|
+|---|---|---|
+|Session|Login, logout and duration|When and how long|
+|Command|Individual commands|What was done|
+|Resource|Data volume, bandwidth or time consumed|How much was used|
+
+These are different levels of detail. A good monitoring system may use more than one.
+
+
+
