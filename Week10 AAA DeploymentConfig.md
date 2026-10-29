@@ -288,3 +288,165 @@ Fast memory rule:
 - RADIUS → UDP, 1812/1813, network access, lightweight.
     
 - TACACS+ → TCP, 49, command control, packet-body encryption, separate AAA functions.
+
+
+
+
+
+## AAA method lists and fallback
+
+
+### What is a method list?
+
+A method list is an ordered list of authentication methods that a device tries.
+
+Example:
+
+1. Try the central TACACS+ server.
+    
+2. If the server is unavailable, try the local user database.
+    
+
+This prevents a central server outage from automatically locking administrators out, provided a valid local account and fallback configuration exist.
+
+Memory trick: Method list = first choice, backup choice.
+
+
+
+### Method lists work like ACL order
+
+Remember the ACL lecture: rules are processed in order.
+
+AAA method lists also use an order, but there is an important distinction about when the device moves to the next method.
+
+Consider:
+```
+aaa authentication login default group tacacs+ local
+```
+
+This means:
+
+1. Try TACACS+ first.
+    
+2. Try local authentication if TACACS+ is unavailable.
+
+Two possible outcomes:
+
+- TACACS+ does not respond: The device can fall back to local authentication.
+    
+- TACACS+ responds and rejects the password: This is a definitive denial, not simply an unavailable server, so the device should not bypass it by automatically trying the local database.
+    
+
+Exam memory rule: No response can trigger fallback; a denial is not the same as no response.
+
+## Cisco AAA configuration
+
+These slides introduce the actual configuration commands. Focus on what each command does and the order of configuration. The examples below are lecture templates; do not reuse their sample passwords or shared keys in a real network.
+
+### Step 1: Enable AAA
+
+```
+aaa new-model
+```
+
+This enables the AAA framework on the Cisco device.
+
+Remember: Enable AAA before configuring the AAA methods.
+
+
+### Step 2: Configure local AAA
+
+```
+username admin privilege 15 secret StrongPass123
+aaa authentication login default local
+```
+
+Explanation:
+
+- `username admin` — creates a local user called `admin`.
+    
+- `privilege 15` — assigns privilege level 15, the highest level in the lecture's Cisco IOS scale.
+    
+- `secret ...` — configures the user's secret credential.
+    
+- `aaa authentication login default local` — uses the local user database for the default login authentication method list.
+    
+
+Exam memory: `local` = use the device's own user database.
+
+
+### Step 3: Configure TACACS+
+
+```
+tacacs server TACACS-SERVER1
+ address ipv4 192.168.1.100
+ key MySharedKey
+
+aaa authentication login default group tacacs+ local
+aaa authorization exec default group tacacs+ local
+aaa accounting exec default start-stop group tacacs+
+```
+
+The shared key is a secret used between the device and server. It is not the administrator's login password.
+
+Remember the three command keywords:
+
+- Authentication = verify identity.
+    
+- Authorization = decide permissions.
+    
+- Accounting = record activity.
+
+
+
+
+
+### Step 4: Configure RADIUS
+
+```
+radius server RADIUS-SERVER1
+ address ipv4 192.168.1.200 auth-port 1812 acct-port 1813
+ key MySharedKey
+
+aaa authentication login default group radius local
+```
+
+Explanation:
+
+- Defines the RADIUS server.
+    
+- Sets its IP address.
+    
+- Specifies authentication port 1812 and accounting port 1813.
+    
+- Configures the shared secret.
+    
+- Tries RADIUS first, then local authentication if RADIUS is unavailable.
+
+
+
+Port memory trick: 1812 = authentication; 1813 = accounting.
+
+
+### Understanding method-list order
+
+Compare:
+
+```
+aaa authentication login default group tacacs+ local
+```
+
+```
+aaa authentication login default group radius local
+```
+
+The first command tries TACACS+ before local authentication. The second tries RADIUS before local authentication.
+
+The method order affects the security and availability of the system.
+
+Practical warning: Misconfigured AAA can lock administrators out. Before changing a production device, verify the fallback account, test with a separate administrative session where possible, and follow your change-control process.
+
+
+
+
+
