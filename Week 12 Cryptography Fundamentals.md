@@ -472,3 +472,254 @@ XORing the ciphertexts cancels the repeated keystream:
 \[ C_1\oplus C_2=P_1\oplus P_2 \]
 
 The attacker now has a relationship between the two plaintexts. If some plaintext is known or can be guessed, this can help recover other information.
+
+### What happened with WEP?
+
+Your lecture explains that WEP used RC4 with a short, 24-bit initialisation vector (IV). The IV was sent in the clear, and repetition was inevitable on busy networks. WEP also had weaknesses in how the IV was combined with the RC4 key.
+
+This allowed attackers who collected sufficient traffic to recover protected information and, in many cases, the WEP key.
+
+Memory trick: Reused keystream = the same mask used twice. The masks cancel when ciphertexts are XORed.
+
+## Stream cipher strengths, weaknesses and uses
+
+|Strengths|Weaknesses|
+|---|---|
+|Low latency|Keystream reuse can be catastrophic|
+|No padding needed|Basic stream encryption does not provide integrity|
+|Suitable for continuously arriving data|A modified ciphertext bit can modify the corresponding plaintext bit|
+|Efficient in software|Nonces must be managed correctly|
+
+Use cases include low-latency communications, VPNs, SSH and modern authenticated encryption such as ChaCha20-Poly1305.
+
+A key distinction: stream encryption by itself does not necessarily detect tampering. An attacker may modify ciphertext without knowing the key. Authentication must be added.
+
+
+
+## Block vs stream — full comparison
+
+This is a useful exam revision table.
+
+|Feature|Block cipher|Stream cipher|
+|---|---|---|
+|Processing|Fixed-size blocks|Keystream combined with data|
+|Padding|Depends on the mode; some modes require it|Not required|
+|Latency|Depends on mode and implementation|Often low|
+|Error effects|Depend on the mode|Often local to the affected bit or byte|
+|Examples|AES, DES, 3DES|ChaCha20, RC4, A5/1|
+|Key risk|Incorrect mode or nonce/IV use|Keystream or nonce reuse|
+
+Do not memorise “all block ciphers need padding.” That is too broad. CTR and GCM are block-cipher modes that do not require padding.
+
+
+
+### Which cipher would you choose?
+
+Encrypt an entire laptop disk
+
+Recommended: AES-XTS.
+
+Why: disk sectors need encryption that supports access to individual sectors.
+
+Scenario B: Protect a live voice call
+
+Suitable choices include a stream-style construction such as ChaCha20-Poly1305 or an appropriate AES-based mode.
+
+Why: low latency and continuous data processing matter.
+
+Scenario C: Protect a TLS web session
+
+Suitable choices include AES-GCM or ChaCha20-Poly1305.
+
+Why: both can provide confidentiality and integrity when correctly implemented.
+
+
+
+
+
+## RSA
+
+RSA is an asymmetric cryptographic algorithm whose security is traditionally based on the difficulty of factoring the product of two large prime numbers.
+
+Suppose:
+
+\[ N=p\times q \]
+
+Multiplying the two primes is straightforward. Recovering the original primes from a sufficiently large, properly generated product is computationally difficult for classical computers.
+
+Your lecture identifies these RSA uses:
+
+- Transporting a small secret key.
+    
+- Creating digital signatures.
+    
+- Supporting secure communication protocols.
+    
+
+RSA is not normally used to encrypt huge files directly because it is inefficient for bulk data. Instead, it can protect a small key that is then used by a fast symmetric cipher.
+
+The lecture gives 2048-bit RSA as an accepted minimum and 3072 bits as a stronger option for longer-term protection. Actual security depends on correct implementation and the threat model.
+
+Memory trick: RSA = factoring large numbers.
+
+
+
+
+
+## Diffie–Hellman key agreement
+
+Diffie–Hellman is different from RSA: its main purpose is to let two parties agree on a shared secret across a public channel.
+
+A simplified example:
+
+1. Alice chooses a private value.
+    
+2. Bob chooses a private value.
+    
+3. They exchange public values derived from their private values.
+    
+4. Each combines their own private value with the other party's public value.
+    
+5. Both calculate the same shared secret.
+    
+
+An eavesdropper can see the public exchange but should not be able to calculate the secret efficiently, assuming secure parameters and a sound implementation.
+
+That shared secret can then be used to derive symmetric encryption keys.
+
+Critical limitation: ordinary unauthenticated Diffie–Hellman does not prove who is on the other end. An attacker can perform a man-in-the-middle attack, establishing one secret with Alice and another with Bob.
+
+Certificates or other authentication mechanisms are needed to establish the other party's identity.
+
+Memory trick: Diffie–Hellman = agree on a secret; it does not encrypt the conversation by itself.
+
+
+
+
+## Diffie–Hellman diagram
+
+This slide illustrates the same exchange visually. The essential idea is that both parties independently arrive at the same secret without sending that secret itself across the network.
+
+For the exam, focus on these three points:
+
+- Private values remain secret.
+    
+- Public values can cross the network.
+    
+- Authentication must be added to prevent an active attacker from impersonating each party.
+
+## Elliptic Curve Cryptography (ECC)
+
+ECC is another family of asymmetric cryptography.
+
+Instead of relying on the same mathematical problem as RSA, ECC commonly relies on the difficulty of the elliptic-curve discrete logarithm problem.
+
+Its major practical advantage is smaller keys for comparable classical security levels.
+
+The lecture gives this comparison:
+
+- A 256-bit elliptic-curve key provides roughly comparable classical security to a 3072-bit RSA key.
+    
+- ECDH is used for key agreement.
+    
+- ECDSA is used for digital signatures.
+    
+- Curve25519 and P-256 are examples of curves.
+    
+
+ECC is attractive for mobile devices and other environments where bandwidth, storage, and processing are limited.
+
+Like RSA and traditional Diffie–Hellman, conventional ECC is vulnerable to a sufficiently capable quantum computer.
+
+Memory trick: ECC = strong classical security with smaller keys.
+
+
+## RSA vs Diffie–Hellman vs ECC
+
+|Feature|RSA|Diffie–Hellman|ECC|
+|---|---|---|---|
+|Main purpose|Key transport and signatures|Key agreement|Key agreement and signatures|
+|Underlying hard problem|Integer factoring|Discrete logarithm|Elliptic-curve discrete logarithm|
+|Approximate 128-bit classical security key size in the lecture|3072 bits|3072 bits|256 bits|
+|Forward secrecy|Not by itself|With ephemeral DH|With ephemeral ECDH|
+|Main consideration|Larger keys and slower operations|Requires authentication|Correct curve and implementation matter|
+
+Forward secrecy means that compromise of a long-term private key does not automatically expose previously recorded sessions when those sessions used correctly implemented ephemeral key agreement and proper key erasure.
+
+The short exam distinction:
+
+- RSA: factoring.
+    
+- DH: agree on a secret.
+    
+- ECC: elliptic curves and smaller keys.
+
+
+
+
+# Symmetric vs asymmetric and hybrid encryption
+
+## Slide 40: Comparison section
+
+This section combines everything you have learned so far. The key exam question is: why do real systems often use both symmetric and asymmetric cryptography?
+
+## Slide 41: Symmetric vs asymmetric — full comparison
+
+|Feature|Symmetric|Asymmetric|
+|---|---|---|
+|Keys|One shared secret|Public/private key pair|
+|Speed|Very fast|Generally much slower|
+|Key distribution|Difficult|Public key can be shared openly|
+|Keys for \(n\) users|\(n(n-1)/2\) pairwise shared keys|\(n\) key pairs|
+|Main use|Encrypting bulk data|Key agreement, key transport and signatures|
+|Examples|AES, ChaCha20|RSA, DH, ECC|
+
+One nuance for exams: asymmetric encryption and key agreement are different operations. Diffie–Hellman does not directly encrypt a message; it establishes a shared secret.
+
+
+## Hybrid encryption
+
+Hybrid encryption combines the strengths of both families.
+
+Phase 1 — Handshake
+
+The parties establish a shared session key using a method such as Diffie–Hellman or ECDH, and authenticate the exchange appropriately.
+
+Purpose: establish keys securely.
+
+Phase 2 — Data transfer
+
+Use a fast symmetric cipher such as AES-GCM or ChaCha20-Poly1305 with the session keys.
+
+Purpose: protect the actual data efficiently.
+
+Why not use only one?
+
+- Asymmetric cryptography helps establish or transport keys, but is expensive for bulk data.
+    
+- Symmetric cryptography is fast, but the parties need a secure way to establish the shared key.
+    
+- Hybrid encryption uses each where it is strongest.
+    
+
+Memory trick: Asymmetric to set up; symmetric to speed up.
+
+
+
+
+## TLS, IPsec and SSH
+
+Your lecture uses three real-world examples.
+
+|Protocol|Key establishment and authentication|Bulk data protection|
+|---|---|---|
+|TLS 1.3|ECDHE, certificates and signatures|AES-GCM or ChaCha20-Poly1305|
+|IPsec|IKE key exchange and authentication|ESP using AES, often GCM mode|
+|SSH|Key exchange and host/user authentication|AES or ChaCha20|
+
+For example, when you visit a website using HTTPS, the browser and server establish session keys during the TLS handshake. The symmetric keys are then used to protect the application data.
+
+Exam point: Hybrid encryption does not mean encrypting every data packet with RSA. It means using asymmetric techniques to establish or protect keys, then symmetric encryption for the bulk data.
+
+
+
